@@ -4,6 +4,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const { authMiddleware } = require('../middleware/auth');
 const { authLimiter } = require('../middleware/rateLimiter');
+const { logAuth } = require('../utils/auditLogger');
 
 // JWT Secret validation
 if (!process.env.JWT_SECRET) {
@@ -29,6 +30,9 @@ router.post('/register', authLimiter, async (req, res) => {
         await user.save();
         
         const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '30d' });
+        
+        // Log successful registration
+        await logAuth(user._id, 'register', 'success', { username: user.username, phone: user.phone }, req);
         
         res.json({ 
             token, 
@@ -64,6 +68,7 @@ router.post('/login', authLimiter, async (req, res) => {
         
         if (!user) {
             console.log('User not found');
+            await logAuth(null, 'login_failed', 'failed', { phone, reason: 'User not found' }, req);
             return res.status(401).json({ error: 'Invalid phone or password' });
         }
         
@@ -72,6 +77,7 @@ router.post('/login', authLimiter, async (req, res) => {
         console.log('Password match:', passwordMatch);
         
         if (!passwordMatch) {
+            await logAuth(user._id, 'login_failed', 'failed', { phone, reason: 'Invalid password' }, req);
             return res.status(401).json({ error: 'Invalid phone or password' });
         }
         
@@ -80,6 +86,9 @@ router.post('/login', authLimiter, async (req, res) => {
         }
         
         const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '30d' });
+        
+        // Log successful login
+        await logAuth(user._id, 'login_success', 'success', { username: user.username, phone }, req);
         
         console.log('Login successful for:', user.username);
         res.json({ 
@@ -120,3 +129,4 @@ router.get('/balance', authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+

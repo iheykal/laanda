@@ -1,0 +1,61 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0;
+    min-height: 120px;
+}
+
+.dice {
+    width: 100px;
+    height: 100px;
+    transition: transform 0.2s;
+    cursor: pointer;
+    touch-action: manipulation; /* Improves mobile touch */
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
+}
+
+.roll {
+    animation: pulse 1s infinite;
+}
+
+.dice:active {
+    transform: scale(0.95);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+/* Mobile specific improvements */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 20px 0;
+        min-height: 140px;
+    }
+    
+    .dice {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 25px 0;
+        min-height: 150px;
+    }
+    
+    .dice {
+        width: 130px;
+        height: 130px;
+    }
+}
+

@@ -4,11 +4,12 @@ const Transaction = require('../models/transaction');
 const User = require('../models/user');
 const { authMiddleware } = require('../middleware/auth');
 const { transactionLimiter } = require('../middleware/rateLimiter');
+const { logTransaction } = require('../utils/auditLogger');
 
 // Request deposit
 router.post('/deposit', transactionLimiter, authMiddleware, async (req, res) => {
     try {
-        const { amount, phoneNumber, transactionId, proofImage, notes } = req.body;
+        const { amount, phoneNumber, senderName, transactionId, proofImage, notes } = req.body;
         
         // Enhanced validation for amount
         const parsedAmount = parseFloat(amount);
@@ -30,11 +31,16 @@ router.post('/deposit', transactionLimiter, authMiddleware, async (req, res) => 
             return res.status(400).json({ error: 'Phone number is required' });
         }
         
+        if (!senderName || typeof senderName !== 'string') {
+            return res.status(400).json({ error: 'Sender name is required' });
+        }
+        
         const transaction = new Transaction({
             userId: req.userId,
             type: 'deposit',
             amount: parsedAmount,
             phoneNumber: phoneNumber.trim(),
+            senderName: senderName.trim(),
             transactionId: transactionId?.trim() || '',
             proofImage,
             notes: notes?.trim() || '',
@@ -42,6 +48,20 @@ router.post('/deposit', transactionLimiter, authMiddleware, async (req, res) => 
         });
         
         await transaction.save();
+        
+        // Log deposit request
+        await logTransaction(
+            req.userId,
+            'deposit_request',
+            transaction._id,
+            {
+                amount: parsedAmount,
+                phoneNumber: phoneNumber.trim(),
+                senderName: senderName.trim()
+            },
+            req
+        );
+        
         res.json({ 
             message: 'Deposit request submitted successfully. Wait for admin approval.', 
             transaction 
@@ -55,7 +75,7 @@ router.post('/deposit', transactionLimiter, authMiddleware, async (req, res) => 
 // Request withdrawal
 router.post('/withdrawal', transactionLimiter, authMiddleware, async (req, res) => {
     try {
-        const { amount, phoneNumber } = req.body;
+        const { amount, phoneNumber, recipientName } = req.body;
         
         // Enhanced validation for amount
         const parsedAmount = parseFloat(amount);
@@ -77,6 +97,10 @@ router.post('/withdrawal', transactionLimiter, authMiddleware, async (req, res) 
             return res.status(400).json({ error: 'Phone number is required' });
         }
         
+        if (!recipientName || typeof recipientName !== 'string') {
+            return res.status(400).json({ error: 'Recipient name is required' });
+        }
+        
         const user = await User.findById(req.userId);
         
         if (user.balance < parsedAmount) {
@@ -88,10 +112,25 @@ router.post('/withdrawal', transactionLimiter, authMiddleware, async (req, res) 
             type: 'withdrawal',
             amount: parsedAmount,
             phoneNumber: phoneNumber.trim(),
+            recipientName: recipientName.trim(),
             status: 'pending'
         });
         
         await transaction.save();
+        
+        // Log withdrawal request
+        await logTransaction(
+            req.userId,
+            'withdrawal_request',
+            transaction._id,
+            {
+                amount: parsedAmount,
+                phoneNumber: phoneNumber.trim(),
+                recipientName: recipientName.trim()
+            },
+            req
+        );
+        
         res.json({ 
             message: 'Withdrawal request submitted successfully. Admin will process it soon.', 
             transaction 
@@ -132,3 +171,4 @@ router.get('/:id', authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+

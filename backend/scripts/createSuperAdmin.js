@@ -7,13 +7,17 @@ const User = require('../models/user');
 // Database connection
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ludo-game', {
+        const dbUri = process.env.CONNECTION_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/ludo-game';
+        console.log('Connecting to database...');
+        await mongoose.connect(dbUri, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
+            dbName: 'test'
         });
         console.log('✅ MongoDB connected');
     } catch (error) {
         console.error('❌ MongoDB connection error:', error);
+        console.error('Make sure CONNECTION_URI or MONGODB_URI is set in your .env file');
         process.exit(1);
     }
 };

@@ -3,14 +3,25 @@ const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
-    email: { type: String }, // Optional
+    email: { type: String }, // Optional, no unique constraint
     phone: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     balance: { type: Number, default: 0 },
     isActive: { type: Boolean, default: true },
     isAdmin: { type: Boolean, default: false },
     isSuperAdmin: { type: Boolean, default: false },
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    // Game statistics
+    stats: {
+        totalGames: { type: Number, default: 0 },
+        wins: { type: Number, default: 0 },
+        losses: { type: Number, default: 0 },
+        totalEarnings: { type: Number, default: 0 },
+        totalWagered: { type: Number, default: 0 },
+        currentStreak: { type: Number, default: 0 },
+        bestStreak: { type: Number, default: 0 },
+        lastPlayedAt: { type: Date }
+    }
 });
 
 // Hash password before saving
@@ -26,3 +37,4 @@ UserSchema.methods.comparePassword = function(candidatePassword) {
 };
 
 module.exports = mongoose.model('User', UserSchema);
+

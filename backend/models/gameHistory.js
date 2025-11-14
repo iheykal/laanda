@@ -18,3 +18,4 @@ const GameHistorySchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('GameHistory', GameHistorySchema);
+

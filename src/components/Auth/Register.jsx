@@ -5,7 +5,7 @@ import styles from './Auth.module.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({
-        username: '',
+        fullName: '',
         phone: '',
         password: '',
         confirmPassword: ''
@@ -27,35 +27,44 @@ const Register = () => {
         e.preventDefault();
         setError('');
 
+        console.log('Register form data:', formData);
+
         // Validation
-        if (!formData.username || !formData.phone || !formData.password) {
+        if (!formData.fullName || !formData.phone || !formData.password || !formData.confirmPassword) {
+            console.log('Validation failed: Missing fields');
             setError('All fields are required');
             return;
         }
 
         if (formData.password !== formData.confirmPassword) {
+            console.log('Validation failed: Passwords do not match');
             setError('Passwords do not match');
             return;
         }
 
         if (formData.password.length < 6) {
+            console.log('Validation failed: Password too short');
             setError('Password must be at least 6 characters');
             return;
         }
 
+        console.log('Validation passed, attempting registration...');
+
         setLoading(true);
         const result = await register({
-            username: formData.username,
+            username: formData.fullName,
             phone: formData.phone,
             password: formData.password
         });
 
         setLoading(false);
 
+        console.log('Registration result:', result);
+
         if (result.error) {
             setError(result.error);
         } else {
-            navigate('/wallet');
+            navigate('/dashboard');
         }
     };
 
@@ -69,14 +78,14 @@ const Register = () => {
 
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="username">Username</label>
+                        <label htmlFor="fullName">Full Name</label>
                         <input
                             type="text"
-                            id="username"
-                            name="username"
-                            value={formData.username}
+                            id="fullName"
+                            name="fullName"
+                            value={formData.fullName}
                             onChange={handleChange}
-                            placeholder="Enter username"
+                            placeholder="Enter your full name"
                             required
                         />
                     </div>

@@ -1,0 +1,1252 @@
+.walletContainer {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.walletCard {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.userInfo h2 {
+    font-size: 24px;
+    color: #333;
+    margin: 0 0 5px 0;
+}
+
+.userInfo p {
+    color: #666;
+    margin: 0;
+}
+
+.headerActions {
+    display: flex;
+    gap: 10px;
+}
+
+.adminButton {
+    padding: 10px 20px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.adminButton:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.logoutButton {
+    padding: 10px 20px;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.logoutButton:hover {
+    background: #d32f2f;
+    transform: translateY(-2px);
+}
+
+/* ===== MODERN BALANCE CARD ===== */
+.balanceCard {
+    position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 24px;
+    padding: 0;
+    color: white;
+    margin-bottom: 30px;
+    overflow: hidden;
+    box-shadow: 
+        0 20px 60px rgba(102, 126, 234, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    animation: balanceCardEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes balanceCardEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.balanceGlow {
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    animation: glowPulse 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.1);
+    }
+}
+
+.balanceContent {
+    position: relative;
+    z-index: 2;
+    padding: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.balanceHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.balanceIcon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    animation: iconFloat 3s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes iconFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.balanceIcon svg {
+    width: 32px;
+    height: 32px;
+    color: white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.balanceInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.balanceLabel {
+    font-size: 13px;
+    opacity: 0.9;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.labelIcon {
+    font-size: 16px;
+    animation: iconSpin 2s ease-in-out infinite;
+}
+
+@keyframes iconSpin {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-10deg);
+    }
+    75% {
+        transform: rotate(10deg);
+    }
+}
+
+.balanceAmount {
+    font-size: 56px;
+    font-weight: 800;
+    margin: 0 0 12px 0;
+    line-height: 1.1;
+    background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+    animation: amountPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    letter-spacing: -1px;
+}
+
+@keyframes amountPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.balanceAmount.increase {
+    animation: balanceIncrease 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: #4caf50 !important;
+    -webkit-text-fill-color: #4caf50 !important;
+}
+
+@keyframes balanceIncrease {
+    0% {
+        transform: scale(1);
+        color: #4caf50;
+    }
+    50% {
+        transform: scale(1.15);
+        color: #66bb6a;
+    }
+    100% {
+        transform: scale(1);
+        color: #4caf50;
+    }
+}
+
+.balanceAmount.decrease {
+    animation: balanceDecrease 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: #ff9800 !important;
+    -webkit-text-fill-color: #ff9800 !important;
+}
+
+@keyframes balanceDecrease {
+    0% {
+        transform: scale(1);
+        color: #ff9800;
+    }
+    50% {
+        transform: scale(0.9);
+        color: #ffb74d;
+    }
+    100% {
+        transform: scale(1);
+        color: #ff9800;
+    }
+}
+
+.balanceSubtext {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.positiveStatus,
+.negativeStatus {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.positiveStatus {
+    background: rgba(76, 175, 80, 0.3);
+    border: 1px solid rgba(76, 175, 80, 0.5);
+    color: #c8e6c9;
+}
+
+.negativeStatus {
+    background: rgba(255, 152, 0, 0.3);
+    border: 1px solid rgba(255, 152, 0, 0.5);
+    color: #ffe0b2;
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    animation: dotPulse 2s ease-in-out infinite;
+}
+
+.positiveStatus .statusDot {
+    background: #4caf50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.8);
+}
+
+.negativeStatus .statusDot {
+    background: #ff9800;
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.8);
+}
+
+@keyframes dotPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.2);
+    }
+}
+
+.balanceActions {
+    display: flex;
+    gap: 12px;
+}
+
+.playButton {
+    flex: 1;
+    padding: 18px 32px;
+    border: none;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.playButton::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.playButton:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.playButtonActive {
+    background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+    color: #667eea;
+    box-shadow: 
+        0 10px 30px rgba(255, 255, 255, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+}
+
+.playButtonActive:hover:not(:disabled) {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+        0 15px 40px rgba(255, 255, 255, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+}
+
+.playButtonInactive {
+    background: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.playButtonInactive:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.playButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.buttonIcon {
+    font-size: 20px;
+    display: inline-block;
+    animation: buttonIconBounce 2s ease-in-out infinite;
+}
+
+@keyframes buttonIconBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+.buttonText {
+    position: relative;
+    z-index: 1;
+}
+
+.balanceDecorations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.decorationCircle1,
+.decorationCircle2,
+.decorationCircle3 {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    animation: float 6s ease-in-out infinite;
+}
+
+.decorationCircle1 {
+    width: 120px;
+    height: 120px;
+    top: -60px;
+    right: -60px;
+    animation-delay: 0s;
+}
+
+.decorationCircle2 {
+    width: 80px;
+    height: 80px;
+    bottom: -40px;
+    left: -40px;
+    animation-delay: 2s;
+}
+
+.decorationCircle3 {
+    width: 60px;
+    height: 60px;
+    top: 50%;
+    right: 10%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.3;
+    }
+    33% {
+        transform: translate(20px, -20px) scale(1.1);
+        opacity: 0.4;
+    }
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+        opacity: 0.2;
+    }
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.tabs button {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.3s;
+}
+
+.tabs button:hover {
+    color: #667eea;
+}
+
+.activeTab {
+    color: #667eea !important;
+    border-bottom: 3px solid #667eea !important;
+}
+
+.tabContent {
+    min-height: 300px;
+}
+
+.balanceTab {
+    padding: 20px;
+}
+
+.balanceTab h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.instructions {
+    padding-left: 20px;
+}
+
+.instructions li {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.instructions strong {
+    color: #667eea;
+}
+
+.formContainer {
+    padding: 20px;
+}
+
+.formContainer h3 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.infoBox {
+    background: #e3f2fd;
+    border-left: 4px solid #2196f3;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.infoBox p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.note {
+    font-size: 14px;
+    color: #666;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+.depositForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formGroup label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.formGroup input,
+.formGroup textarea {
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s;
+    outline: none;
+    font-family: inherit;
+    color: #333;
+    background-color: #fff;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    color: #333;
+    background-color: #fff;
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+    color: #999;
+}
+
+.submitButton {
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.submitButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.submitButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.errorMessage {
+    background-color: #fee;
+    color: #c33;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #fcc;
+}
+
+.successMessage {
+    background-color: #efe;
+    color: #2c7a2c;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #cfc;
+}
+
+.historyContainer {
+    padding: 20px;
+}
+
+.historyContainer h3 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.transactionList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.transactionItem {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    border-left: 4px solid #667eea;
+}
+
+.transactionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.transactionType {
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+}
+
+.status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.statusApproved {
+    background: #c8e6c9;
+    color: #2e7d32;
+}
+
+.statusPending {
+    background: #fff9c4;
+    color: #f57f17;
+}
+
+.statusRejected {
+    background: #ffcdd2;
+    color: #c62828;
+}
+
+.transactionDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.amount {
+    font-size: 24px;
+    font-weight: bold;
+    color: #667eea;
+    margin: 0;
+}
+
+.date, .phone, .txId, .notes {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.adminNotes {
+    font-size: 14px;
+    color: #2196f3;
+    margin: 5px 0 0 0;
+    font-style: italic;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.emptyState p {
+    color: #666;
+    margin: 10px 0;
+}
+
+.emptyState p:first-child {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ===== MODERN TRANSACTION HISTORY STYLES ===== */
+
+/* Loading States */
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 20px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Error States */
+.errorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 15px;
+}
+
+.errorIcon {
+    font-size: 48px;
+}
+
+.retryButton {
+    padding: 10px 24px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.retryButton:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+}
+
+/* Empty State Modern */
+.emptyStateModern {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.emptyIcon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.emptyStateModern h3 {
+    color: #333;
+    font-size: 24px;
+    margin: 0 0 10px 0;
+}
+
+.emptyStateModern p {
+    color: #666;
+    margin: 0 0 20px 0;
+}
+
+.emptyActions {
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+    color: white;
+    display: inline-block;
+}
+
+/* History Container Modern */
+.historyContainerModern {
+    padding: 20px;
+}
+
+.historyHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.historyHeader h3 {
+    color: #333;
+    font-size: 24px;
+    margin: 0;
+}
+
+.refreshButton {
+    padding: 8px 16px;
+    background: #f5f5f5;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s;
+}
+
+.refreshButton:hover {
+    background: #667eea;
+    border-color: #667eea;
+    transform: rotate(180deg);
+}
+
+/* Stats Cards */
+.statsCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.statCard {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+    transition: transform 0.3s;
+}
+
+.statCard:hover {
+    transform: translateY(-5px);
+}
+
+.statIcon {
+    font-size: 36px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.statInfo {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.statLabel {
+    font-size: 12px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.statValue {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Filter Buttons */
+.filterButtons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filterBtn {
+    padding: 10px 20px;
+    background: #f5f5f5;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.3s;
+}
+
+.filterBtn:hover {
+    background: #e8e8e8;
+    border-color: #d0d0d0;
+}
+
+.filterActive {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 2px solid transparent;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Transaction List Modern */
+.transactionListModern {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.transactionCardModern {
+    background: white;
+    border: 2px solid #f0f0f0;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+    animation: slideIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.transactionCardModern:hover {
+    border-color: #667eea;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+    transform: translateY(-3px);
+}
+
+.transactionLeft {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.transactionIconBox {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.transactionIconBox.deposit {
+    background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+}
+
+.transactionIconBox.withdrawal {
+    background: linear-gradient(135deg, #f44336 0%, #ef5350 100%);
+}
+
+.transactionInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.transactionTitle {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.transactionDate {
+    margin: 0;
+    font-size: 13px;
+    color: #999;
+}
+
+.transactionPhone,
+.transactionName {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.transactionRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.transactionAmount {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.amountPositive {
+    color: #4caf50;
+}
+
+.amountNegative {
+    color: #f44336;
+}
+
+.statusBadge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.statusBadge.approved {
+    background: #c8e6c9;
+    color: #2e7d32;
+}
+
+.statusBadge.pending {
+    background: #fff9c4;
+    color: #f57f17;
+}
+
+.statusBadge.rejected {
+    background: #ffcdd2;
+    color: #c62828;
+}
+
+.adminNotesBox {
+    margin-top: 15px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-left: 3px solid #2196f3;
+    border-radius: 8px;
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.adminNotesLabel {
+    font-weight: 600;
+    color: #2196f3;
+    font-size: 13px;
+}
+
+.adminNotesText {
+    color: #555;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.noResults {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+    font-size: 16px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .walletCard {
+        padding: 20px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .headerActions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .balanceCard {
+        border-radius: 20px;
+    }
+
+    .balanceContent {
+        padding: 25px;
+        gap: 20px;
+    }
+
+    .balanceHeader {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .balanceIcon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .balanceIcon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .balanceAmount {
+        font-size: 42px;
+    }
+
+    .balanceActions {
+        width: 100%;
+    }
+
+    .playButton {
+        width: 100%;
+        padding: 16px 24px;
+        font-size: 16px;
+    }
+
+    .decorationCircle1,
+    .decorationCircle2,
+    .decorationCircle3 {
+        display: none;
+    }
+
+    .tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    .tabs button {
+        flex-shrink: 0;
+    }
+
+    /* Modern Transaction History Mobile */
+    .statsCards {
+        grid-template-columns: 1fr;
+    }
+
+    .statCard {
+        padding: 15px;
+    }
+
+    .statValue {
+        font-size: 20px;
+    }
+
+    .filterButtons {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    .filterBtn,
+    .filterActive {
+        flex-shrink: 0;
+    }
+
+    .transactionCardModern {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .transactionLeft {
+        width: 100%;
+    }
+
+    .transactionRight {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .transactionIconBox {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+
+    .adminNotesBox {
+        flex-direction: column;
+    }
+}
+

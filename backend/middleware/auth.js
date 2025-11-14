@@ -51,11 +51,10 @@ exports.adminMiddleware = async (req, res, next) => {
         req.userId = 'test-admin-id';
         req.user = { 
             _id: 'test-admin-id',
-            username: 'SuperAdmin', 
-            phone: '610251014', 
+            username: 'AdminUser', 
+            email: 'admin@test.com', 
             balance: 0, 
-            isAdmin: true,
-            isSuperAdmin: true
+            isAdmin: true 
         };
         return next();
     }
@@ -81,3 +80,4 @@ exports.adminMiddleware = async (req, res, next) => {
         res.status(403).json({ error: 'Unauthorized' });
     }
 };
+

@@ -11,6 +11,8 @@ const TransactionSchema = new mongoose.Schema({
     },
     proofImage: String,
     phoneNumber: String,
+    senderName: String, // Name for deposits
+    recipientName: String, // Name for withdrawals
     transactionId: String,
     notes: String,
     adminNotes: String,
@@ -19,3 +21,4 @@ const TransactionSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Transaction', TransactionSchema);
+

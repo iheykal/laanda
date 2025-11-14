@@ -26,18 +26,29 @@ const Login = () => {
         setError('');
 
         if (!formData.phone || !formData.password) {
-            setError('All fields are required');
+            setError('Phone and password are required');
             return;
         }
 
-        setLoading(true);
-        const result = await login(formData);
-        setLoading(false);
+        console.log('Attempting login with:', { phone: formData.phone, hasPassword: !!formData.password });
 
-        if (result.error) {
-            setError(result.error);
-        } else {
-            navigate('/wallet');
+        setLoading(true);
+        
+        try {
+            const result = await login(formData);
+            console.log('Login result:', result);
+
+            if (result.error) {
+                setError(result.error);
+            } else {
+                // Success - redirect to dashboard
+                navigate('/dashboard');
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            setError('Login failed. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -59,6 +70,8 @@ const Login = () => {
                             value={formData.phone}
                             onChange={handleChange}
                             placeholder="610251014"
+                            pattern="[0-9]*"
+                            inputMode="numeric"
                             required
                         />
                     </div>
