@@ -42,14 +42,20 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/game', gameRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 
-// Serve static files from React app in production (must be after API routes)
-if (process.env.NODE_ENV === 'production') {
-    const fs = require('fs');
-    // Try multiple possible build paths (check most likely first)
-    const buildPathCurrent = path.join(__dirname, './build');  // /app/build (Docker)
-    const buildPathParent = path.join(__dirname, '../build'); // ../build
-    const buildPathRoot = path.join(process.cwd(), 'build');   // from working dir
-    
+// Serve static files from React app
+// Always try to serve if build directory exists (for Docker/Render deployments)
+const fs = require('fs');
+
+// Check if build directory exists - if it does, serve it regardless of NODE_ENV
+const buildPathCurrent = path.join(__dirname, './build');
+const buildPathParent = path.join(__dirname, '../build');
+const buildPathRoot = path.join(process.cwd(), 'build');
+
+const buildExists = fs.existsSync(buildPathCurrent) || 
+                     fs.existsSync(buildPathParent) || 
+                     fs.existsSync(buildPathRoot);
+
+if (buildExists || process.env.NODE_ENV === 'production') {
     // Use the first path that exists
     let staticPath = buildPathCurrent;
     if (fs.existsSync(buildPathCurrent)) {
@@ -65,11 +71,13 @@ if (process.env.NODE_ENV === 'production') {
         console.error(`   - ${buildPathRoot}`);
         console.error(`   Current working directory: ${process.cwd()}`);
         console.error(`   __dirname: ${__dirname}`);
+        console.error(`   NODE_ENV: ${process.env.NODE_ENV}`);
         // Fallback to current directory build
         staticPath = buildPathCurrent;
     }
     
     console.log(`📦 Serving static files from: ${staticPath}`);
+    console.log(`🌐 NODE_ENV: ${process.env.NODE_ENV || 'not set'}`);
     app.use(express.static(staticPath));
     
     // Catch all handler: send back React's index.html file for any non-API routes
@@ -80,9 +88,16 @@ if (process.env.NODE_ENV === 'production') {
         }
         
         const indexPath = path.join(staticPath, 'index.html');
-        console.log(`📄 Serving index.html from: ${indexPath}`);
-        res.sendFile(indexPath);
+        if (fs.existsSync(indexPath)) {
+            console.log(`📄 Serving index.html from: ${indexPath}`);
+            res.sendFile(indexPath);
+        } else {
+            console.error(`❌ index.html not found at: ${indexPath}`);
+            res.status(404).send('React app not found. Build directory may be missing.');
+        }
     });
+} else {
+    console.log(`🔧 Development mode: Not serving static files`);
 }
 
 const server = app.listen(PORT, '0.0.0.0', () => {
