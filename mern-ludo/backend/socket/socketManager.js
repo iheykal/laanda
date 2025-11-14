@@ -11,6 +11,10 @@ const socketManager = {
                 },
                 credentials: true,
             },
+            // Performance optimizations
+            pingTimeout: 60000, // Increase ping timeout to reduce false disconnections
+            pingInterval: 25000, // Increase ping interval to reduce server load
+            transports: ['websocket', 'polling'], // Use websocket as primary transport
             allowRequest: (req, callback) => {
                 const fakeRes = {
                     getHeader() {

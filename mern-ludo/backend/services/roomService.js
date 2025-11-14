@@ -1,14 +1,28 @@
 const Room = require('../models/room');
 const { sendToPlayersData } = require('../socket/emits');
 
+// Simple in-memory cache for room list queries to reduce database load
+const roomsCache = {
+    data: null,
+    timestamp: null,
+    ttl: 1000, // Cache for 1 second (1000ms) - balances freshness with performance
+};
+
 const getRoom = async roomId => {
     return await Room.findOne({ _id: roomId }).exec();
 };
 
 const getRooms = async () => {
+    const now = Date.now();
+    
+    // Return cached data if it's still valid
+    if (roomsCache.data && roomsCache.timestamp && (now - roomsCache.timestamp) < roomsCache.ttl) {
+        return roomsCache.data;
+    }
+    
     // Use lean() for read-only queries to improve performance
     // Only fetch essential fields for room list
-    return await Room.find({}, {
+    const rooms = await Room.find({}, {
         name: 1,
         private: 1,
         players: 1,
@@ -18,6 +32,18 @@ const getRooms = async () => {
         requiresBet: 1,
         createDate: 1
     }).lean().exec();
+    
+    // Update cache
+    roomsCache.data = rooms;
+    roomsCache.timestamp = now;
+    
+    return rooms;
+};
+
+// Clear cache when rooms are updated
+const clearRoomsCache = () => {
+    roomsCache.data = null;
+    roomsCache.timestamp = null;
 };
 
 const updateRoom = async room => {
@@ -53,6 +79,9 @@ const updateRoom = async room => {
             console.error(`❌ Room ${roomId} not found for update`);
             return null;
         }
+        
+        // Clear cache when room is updated
+        clearRoomsCache();
         
         return updatedRoom;
     } catch (error) {
@@ -104,6 +133,7 @@ const getJoinableRoom = async () => {
 const createNewRoom = async data => {
     const room = new Room(data);
     await room.save();
+    clearRoomsCache(); // Clear cache when new room is created
     return room;
 };
 
@@ -113,4 +143,4 @@ const createNewRoom = async data => {
 //     sendToPlayersData(await getRoom(data.documentKey._id));
 // });
 
-module.exports = { getRoom, getRooms, updateRoom, getJoinableRoom, createNewRoom };
+module.exports = { getRoom, getRooms, updateRoom, getJoinableRoom, createNewRoom, clearRoomsCache };

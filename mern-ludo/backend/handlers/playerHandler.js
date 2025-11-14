@@ -158,7 +158,7 @@ module.exports = socket => {
         reloadSession(savedRoom, addedPlayer._id.toString());
         
         // CRITICAL: Ensure both players have valid sessions and are in the same room
-        // Broadcast room data immediately and multiple times to handle timing issues
+        // Broadcast room data once - socket.io handles delivery reliably
         const broadcastRoomData = async () => {
             const freshRoom = await getRoom(savedRoom._id);
             if (freshRoom) {
@@ -167,13 +167,8 @@ module.exports = socket => {
             }
         };
         
-        // Immediate broadcast
+        // Single broadcast - removed duplicate broadcasts to reduce server load
         broadcastRoomData();
-        
-        // Broadcast again after small delays to ensure both players receive it
-        setTimeout(() => broadcastRoomData(), 100);
-        setTimeout(() => broadcastRoomData(), 300);
-        setTimeout(() => broadcastRoomData(), 500);
     };
 
     // Since it is not bound to an HTTP request, the session must be manually reloaded and saved

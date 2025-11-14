@@ -72,7 +72,7 @@ const GameRoute = ({ playerData, playerSocket, setPlayerData }) => {
         
         playerSocket.on('player:data', handlePlayerData);
         
-        // Retry mechanism - try up to maxAttempts times, checking every 500ms
+        // Retry mechanism - try up to maxAttempts times, checking every 2 seconds
         intervalRef.current = setInterval(() => {
             attemptsRef.current += 1;
             // Check current state before retrying
@@ -87,7 +87,7 @@ const GameRoute = ({ playerData, playerSocket, setPlayerData }) => {
                     intervalRef.current = null;
                 }
             }
-        }, 1000); // Check every 1 second (reduced from 500ms to reduce server load)
+        }, 2000); // Check every 2 seconds - reduced frequency to reduce server load
         
         return () => {
             if (intervalRef.current) {

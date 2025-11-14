@@ -30,6 +30,16 @@ module.exports = socket => {
             return;
         }
         
+        // Player manually moved - stop bot control for this player
+        if (room.botControlledPlayers && room.botControlledPlayers.length > 0) {
+            const playerIdStr = currentPlayer._id.toString();
+            const index = room.botControlledPlayers.findIndex(id => id.toString() === playerIdStr);
+            if (index > -1) {
+                room.botControlledPlayers.splice(index, 1);
+                console.log(`✅ Player ${currentPlayer.color} manually moved - bot control stopped`);
+            }
+        }
+        
         // data can be just pawnId (old way) or {pawnId, rollNumber} (new way)
         const pawnId = typeof data === 'string' ? data : data.pawnId;
         const chosenRoll = typeof data === 'object' && data.rollNumber ? data.rollNumber : room.rolledNumber;
@@ -161,6 +171,16 @@ module.exports = socket => {
         if (currentPlayer.isBot) {
             console.log('⚠️ Bot tried to roll via socket - ignoring');
             return;
+        }
+        
+        // Player manually rolled - stop bot control for this player
+        if (room.botControlledPlayers && room.botControlledPlayers.length > 0) {
+            const playerIdStr = currentPlayer._id.toString();
+            const index = room.botControlledPlayers.findIndex(id => id.toString() === playerIdStr);
+            if (index > -1) {
+                room.botControlledPlayers.splice(index, 1);
+                console.log(`✅ Player ${currentPlayer.color} manually rolled - bot control stopped`);
+            }
         }
         
         // Allow rolling only if:

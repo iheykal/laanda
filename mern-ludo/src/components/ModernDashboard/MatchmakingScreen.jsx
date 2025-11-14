@@ -268,8 +268,8 @@ const MatchmakingScreen = ({ betAmount, onCancel }) => {
             // Initial search
             socket.emit('room:rooms');
             
-            // Poll every 400ms for matching to reduce race conditions
-            // More frequent polling helps catch rooms created by other players quickly
+            // Poll every 2 seconds for matching - reduced frequency to reduce server load
+            // Still fast enough for good user experience while being server-friendly
             pollingIntervalRef.current = setInterval(() => {
                 if (!hasJoinedRef.current || (hasJoinedRef.current && roomCreatedRef.current && statusRef.current === 'creating')) {
                     // Continue polling if not joined, or if we joined our own room (waiting for opponent)
@@ -283,7 +283,7 @@ const MatchmakingScreen = ({ betAmount, onCancel }) => {
                         console.log(`⏹️ Stopped polling - match found`);
                     }
                 }
-            }, 400);
+            }, 2000); // Reduced from 400ms to 2000ms (2 seconds) - 5x less server load
         };
 
         // Start continuous polling for matches

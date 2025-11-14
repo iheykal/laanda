@@ -267,6 +267,7 @@ const Gameboard = () => {
                         nowMoving={nowMoving}
                         rolledNumber={rolledNumber}
                         selectedRoll={selectedRoll}
+                        movingPlayer={movingPlayer}
                     />
                     <Dashboard 
                         currentTurn={movingPlayer}

@@ -17,6 +17,7 @@ const RoomSchema = new mongoose.Schema({
     rollHistory: { type: [Number], default: [] },
     players: [PlayerSchema],
     winner: { type: String, default: null },
+    botControlledPlayers: { type: [mongoose.Schema.Types.ObjectId], default: [] }, // Players being controlled by bots due to timeout/disconnect
     // BETTING SYSTEM FIELDS
     betAmount: { type: Number, default: 0 }, // Bet per player
     requiresBet: { type: Boolean, default: false }, // Is this a betting game?
@@ -133,9 +134,14 @@ RoomSchema.methods.changeMovingPlayer = function () {
     this.rollHistory = [];
     timeoutManager.clear(this._id.toString());
     
-    // Check if the new moving player is a bot
+    // Check if the new moving player is a bot or bot-controlled
     const newMovingPlayer = this.getCurrentlyMovingPlayer();
-    console.log(`🔄 Turn changed: ${oldPlayer?.color || 'unknown'} → ${newMovingPlayer?.color || 'unknown'} (${newMovingPlayer?.isBot ? 'BOT' : 'HUMAN'})`);
+    const isBotControlled = newMovingPlayer && 
+        !newMovingPlayer.isBot && 
+        this.botControlledPlayers && 
+        this.botControlledPlayers.some(id => id.toString() === newMovingPlayer._id.toString());
+    
+    console.log(`🔄 Turn changed: ${oldPlayer?.color || 'unknown'} → ${newMovingPlayer?.color || 'unknown'} (${newMovingPlayer?.isBot ? 'BOT' : isBotControlled ? 'BOT-CONTROLLED' : 'HUMAN'})`);
     
     if (newMovingPlayer && newMovingPlayer.isBot) {
         console.log('🤖 Bot turn detected - scheduling bot action immediately');
@@ -143,8 +149,12 @@ RoomSchema.methods.changeMovingPlayer = function () {
         const { startBotTurn } = require('../services/botService');
         // Use setImmediate to ensure bot rolls right away
         setImmediate(() => startBotTurn(this._id.toString()));
+    } else if (isBotControlled) {
+        // Bot-controlled human player - start bot actions immediately
+        console.log(`🤖 Bot-controlled player ${newMovingPlayer.color} turn - starting bot actions immediately`);
+        setImmediate(() => makeRandomMove(this._id.toString()));
     } else {
-        // Only set timeout for human players
+        // Only set timeout for regular human players
         console.log(`⏰ Human player ${newMovingPlayer?.color || 'unknown'} turn - setting ${MOVE_TIME}ms timeout`);
         timeoutManager.set(makeRandomMove, MOVE_TIME, this._id.toString());
     }

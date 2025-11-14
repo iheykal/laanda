@@ -26,9 +26,16 @@ const Gameboard = () => {
 
     useEffect(() => {
         socket.emit('room:data', context.roomId);
-        socket.on('room:data', data => {
+        
+        const handleRoomData = data => {
             data = JSON.parse(data);
             if (data.players == null) return;
+            
+            // Only update pawns if we have valid pawn data to prevent resetting state
+            if (data.pawns && Array.isArray(data.pawns) && data.pawns.length > 0) {
+                setPawns(data.pawns);
+            }
+            
             // Filling navbar with empty player nick container
             while (data.players.length !== 4) {
                 data.players.push({ name: '...' });
@@ -44,21 +51,33 @@ const Gameboard = () => {
                 setMovingPlayer(nowMovingPlayer.color);
             }
             const currentPlayer = data.players.find(player => player._id === context.playerId);
-            setIsReady(currentPlayer.ready);
+            if (currentPlayer) {
+                setIsReady(currentPlayer.ready);
+            }
             setRolledNumber(data.rolledNumber);
             setPlayers(data.players);
-            setPawns(data.pawns);
             setTime(data.nextMoveTime);
             setStarted(data.started);
-        });
+        };
 
-        socket.on('game:winner', winner => {
+        const handleGameWinner = winner => {
             setWinner(winner);
-        });
-        socket.on('redirect', () => {
-            window.location.reload();
-        });
+        };
 
+        const handleRedirect = () => {
+            window.location.reload();
+        };
+
+        socket.on('room:data', handleRoomData);
+        socket.on('game:winner', handleGameWinner);
+        socket.on('redirect', handleRedirect);
+
+        // Cleanup function to remove listeners
+        return () => {
+            socket.off('room:data', handleRoomData);
+            socket.off('game:winner', handleGameWinner);
+            socket.off('redirect', handleRedirect);
+        };
     }, [socket, context.playerId, context.roomId, setRolledNumber]);
 
     return (
