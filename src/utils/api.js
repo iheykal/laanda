@@ -1,4 +1,5 @@
-const API_URL = `http://${window.location.hostname}:8000/api`;
+// Use same protocol as the page (HTTPS in production) and same origin (no port needed)
+const API_URL = `${window.location.protocol}//${window.location.host}/api`;
 
 // TEST MODE - Set to true to bypass authentication
 const TEST_MODE = false;

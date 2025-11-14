@@ -52,7 +52,7 @@ const WalletDashboard = () => {
         // Link wallet session to game session
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://${window.location.hostname}:8000/api/game/set-session`, {
+            const response = await fetch(`${window.location.protocol}//${window.location.host}/api/game/set-session`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

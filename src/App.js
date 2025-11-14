@@ -126,7 +126,9 @@ function AppContent() {
     const { isAuthenticated, loading } = useAuth();
 
     useEffect(() => {
-        const socket = io(`http://${window.location.hostname}:8000`, { withCredentials: true });
+        // Use same protocol as the page (HTTPS in production) and same origin
+        const socketUrl = `${window.location.protocol}//${window.location.host}`;
+        const socket = io(socketUrl, { withCredentials: true });
         
         socket.on('player:data', data => {
             try {

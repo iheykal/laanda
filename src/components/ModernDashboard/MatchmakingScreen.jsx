@@ -35,7 +35,7 @@ const MatchmakingScreen = ({ betAmount, onCancel }) => {
         const linkSessionToWallet = async () => {
             try {
                 const token = localStorage.getItem('token');
-                await fetch(`http://${window.location.hostname}:8000/api/game/set-session`, {
+                await fetch(`${window.location.protocol}//${window.location.host}/api/game/set-session`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
