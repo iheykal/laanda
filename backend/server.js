@@ -42,20 +42,58 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/game', gameRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 
+// Serve static files from React app in production (must be after API routes)
+if (process.env.NODE_ENV === 'production') {
+    const fs = require('fs');
+    // Try multiple possible build paths (check most likely first)
+    const buildPathCurrent = path.join(__dirname, './build');  // /app/build (Docker)
+    const buildPathParent = path.join(__dirname, '../build'); // ../build
+    const buildPathRoot = path.join(process.cwd(), 'build');   // from working dir
+    
+    // Use the first path that exists
+    let staticPath = buildPathCurrent;
+    if (fs.existsSync(buildPathCurrent)) {
+        staticPath = buildPathCurrent;
+    } else if (fs.existsSync(buildPathParent)) {
+        staticPath = buildPathParent;
+    } else if (fs.existsSync(buildPathRoot)) {
+        staticPath = buildPathRoot;
+    } else {
+        console.error(`❌ ERROR: Build directory not found! Checked:`);
+        console.error(`   - ${buildPathCurrent}`);
+        console.error(`   - ${buildPathParent}`);
+        console.error(`   - ${buildPathRoot}`);
+        console.error(`   Current working directory: ${process.cwd()}`);
+        console.error(`   __dirname: ${__dirname}`);
+        // Fallback to current directory build
+        staticPath = buildPathCurrent;
+    }
+    
+    console.log(`📦 Serving static files from: ${staticPath}`);
+    app.use(express.static(staticPath));
+    
+    // Catch all handler: send back React's index.html file for any non-API routes
+    app.get('*', (req, res) => {
+        // Skip API routes
+        if (req.path.startsWith('/api/')) {
+            return res.status(404).json({ error: 'API route not found' });
+        }
+        
+        const indexPath = path.join(staticPath, 'index.html');
+        console.log(`📄 Serving index.html from: ${indexPath}`);
+        res.sendFile(indexPath);
+    });
+}
+
 const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Backend server running on port ${PORT}`);
     console.log(`📱 Access from phone: http://YOUR_LOCAL_IP:${PORT}`);
+    if (process.env.NODE_ENV === 'production') {
+        console.log(`🌐 Production mode: Serving React app`);
+    }
 });
 
 require('./config/database')(mongoose);
 require('./config/socket')(server);
-
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('./build'));
-    app.get('*', (req, res) => {
-        const indexPath = path.join(__dirname, './build/index.html');
-        res.sendFile(indexPath);
-    });
-}
 
 module.exports = { server };
