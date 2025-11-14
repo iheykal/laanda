@@ -1,20 +1,324 @@
 .winnerContainer {
     display: flex;
     flex-direction: column;
-    padding: 40px;
-    width: 300px;
-    height: 250px;
-    background: radial-gradient(circle, rgba(0, 138, 255, 1) 5%, rgba(9, 9, 121, 1) 81%);
+    padding: 50px 40px;
+    width: 380px;
+    min-height: 320px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     color: white;
-    border: 1px solid white;
-    border-radius: 8px;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 24px;
     margin: 20px;
     z-index: 2;
     justify-content: center;
+    align-items: center;
     text-align: center;
     cursor: default;
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(245, 87, 108, 0.4);
+    animation: winnerPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    backdrop-filter: blur(10px);
 }
+
+@keyframes winnerPop {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.winnerContainer > img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    animation: trophyBounce 2s ease-in-out infinite;
+}
+
+@keyframes trophyBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.winnerContainer > h1 {
+    font-size: 32px;
+    margin: 15px 0;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    font-weight: 800;
+}
+
+.winnerContainer > h1 > span {
+    font-size: 38px;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 10px;
+    filter: drop-shadow(0 0 20px currentColor);
+}
+
 .winnerContainer > button {
     align-self: center;
-    width: 200px;
+    width: 220px;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid white;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.winnerContainer > button:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* NEW: Payout Info Styles */
+.payoutInfo {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    animation: payoutSlide 0.6s ease-out;
+}
+
+@keyframes payoutSlide {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.payoutInfo h2 {
+    font-size: 22px;
+    margin: 0 0 15px 0;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.payoutDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.payoutDetails p {
+    margin: 0;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.payoutAmount {
+    font-size: 24px !important;
+    color: #ffd700 !important;
+    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+}
+
+.payoutAmount strong {
+    font-size: 28px;
+    font-weight: 900;
+}
+
+.payoutBreakdown {
+    font-size: 13px !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.payoutNote {
+    font-size: 15px !important;
+    color: #4caf50 !important;
+    font-weight: bold;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Loser Container Styles */
+.loserContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 50px 40px;
+    width: 380px;
+    min-height: 320px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 24px;
+    margin: 20px;
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: default;
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(102, 126, 234, 0.4);
+    animation: winnerPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    backdrop-filter: blur(10px);
+}
+
+.loserIcon {
+    font-size: 120px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    animation: trophyBounce 2s ease-in-out infinite;
+}
+
+/* Result Message Styles */
+.resultMessage {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    animation: payoutSlide 0.6s ease-out;
+}
+
+.resultMessage h2 {
+    font-size: 28px;
+    margin: 0 0 15px 0;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    font-weight: 800;
+}
+
+.winAmount {
+    font-size: 32px !important;
+    color: #ffd700 !important;
+    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+    font-weight: 900;
+    margin: 10px 0 0 0 !important;
+}
+
+.lossAmount {
+    font-size: 24px !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-weight: 700;
+    margin: 10px 0 0 0 !important;
+}
+
+/* Mobile responsive */
+@media screen and (max-width: 480px) {
+    .winnerContainer {
+        width: 90%;
+        max-width: 340px;
+        min-height: 300px;
+        padding: 40px 30px;
+        border-radius: 22px;
+    }
+
+    .winnerContainer > img {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 18px;
+    }
+
+    .winnerContainer > h1 {
+        font-size: 26px;
+        margin: 12px 0;
+    }
+
+    .winnerContainer > h1 > span {
+        font-size: 30px;
+        margin-top: 10px;
+    }
+
+    .winnerContainer > button {
+        width: 200px;
+        margin-top: 18px;
+        font-size: 17px;
+        padding: 14px 28px;
+    }
+
+    .loserContainer {
+        width: 90%;
+        max-width: 340px;
+        min-height: 300px;
+        padding: 40px 30px;
+        border-radius: 22px;
+    }
+
+    .loserIcon {
+        font-size: 100px;
+        margin-bottom: 18px;
+    }
+
+    .resultMessage h2 {
+        font-size: 24px;
+    }
+
+    .winAmount {
+        font-size: 28px !important;
+    }
+
+    .lossAmount {
+        font-size: 20px !important;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .winnerContainer {
+        width: 95%;
+        max-width: 280px;
+        min-height: 240px;
+        padding: 30px 20px;
+    }
+
+    .winnerContainer > img {
+        width: 75px;
+        height: 75px;
+    }
+
+    .winnerContainer > h1 {
+        font-size: 20px;
+    }
+
+    .winnerContainer > h1 > span {
+        font-size: 24px;
+    }
+
+    .winnerContainer > button {
+        width: 160px;
+        font-size: 14px;
+    }
+
+    .loserContainer {
+        width: 95%;
+        max-width: 280px;
+        min-height: 240px;
+        padding: 30px 20px;
+    }
+
+    .loserIcon {
+        font-size: 75px;
+    }
+
+    .resultMessage h2 {
+        font-size: 20px;
+    }
+
+    .winAmount {
+        font-size: 24px !important;
+    }
+
+    .lossAmount {
+        font-size: 18px !important;
+    }
 }

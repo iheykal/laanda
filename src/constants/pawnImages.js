@@ -1,7 +1,7 @@
-import bluePawn from '../images/pawns/blue-pawn.png';
-import greenPawn from '../images/pawns/green-pawn.png';
-import redPawn from '../images/pawns/red-pawn.png';
-import yellowPawn from '../images/pawns/yellow-pawn.png';
+import bluePawn from '../images/pawns/pawn-blue.png';
+import greenPawn from '../images/pawns/pawn-green.png';
+import redPawn from '../images/pawns/pawn-red.png';
+import yellowPawn from '../images/pawns/pawn-yellow.png';
 import greyPawn from '../images/pawns/grey-pawn.png';
 
 const pawnImages = {

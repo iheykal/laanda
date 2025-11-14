@@ -5,7 +5,14 @@ const sendToPlayersRolledNumber = (id, rolledNumber) => {
 };
 
 const sendToPlayersData = room => {
-    socketManager.getIO().to(room._id.toString()).emit('room:data', JSON.stringify(room));
+    if (!room || !room._id) {
+        console.error('❌ sendToPlayersData: Invalid room object', room);
+        return;
+    }
+    const roomId = room._id.toString();
+    const nowMovingPlayer = room.players?.find(p => p.nowMoving);
+    console.log(`📤 Emitting room:data to room ${roomId} - ${nowMovingPlayer?.color || 'unknown'} is moving (${nowMovingPlayer?.isBot ? 'BOT' : 'HUMAN'})`);
+    socketManager.getIO().to(roomId).emit('room:data', JSON.stringify(room));
 };
 
 const sendToOnePlayerData = (id, room) => {

@@ -1,0 +1,239 @@
+/* Dashboard Styles - Ludo-mg Design */
+.dashboard {
+  width: auto;
+  max-width: 120px;
+  height: 80px;
+  margin: 0 auto;
+  border-radius: 12px;
+  border: 3px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  color: white;
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Bangers', cursive, sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  padding: 10px;
+}
+
+.dashboard.blue {
+  background-color: #2311db;
+}
+
+.dashboard.red {
+  background-color: red;
+}
+
+.dashboard.green {
+  background-color: #07c107;
+}
+
+.dashboard.yellow {
+  background-color: rgb(255, 209, 0);
+}
+
+.dashboard .player-name {
+  flex: 0 0 auto;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  font-size: 10px;
+  white-space: nowrap;
+  min-width: 60px;
+}
+
+.dashboard .dice-value {
+  flex: 0 0 auto;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  min-width: 20px;
+}
+
+/* Dice Section */
+.dice-section {
+  width: 70px;
+  height: 70px;
+  border-radius: 16px;
+  position: relative;
+  border: 3px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-sizing: border-box;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dice-section.blue {
+  background-color: #2311db;
+}
+
+.dice-section.red {
+  background-color: red;
+}
+
+.dice-section.green {
+  background-color: #07c107;
+}
+
+.dice-section.yellow {
+  background-color: rgb(255, 209, 0);
+}
+
+.dice-section.highlight::before {
+  content: '';
+  display: block;
+  width: 70px;
+  height: 70px;
+  border: 4px dashed #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 100px;
+  animation: highlightDice 0.5s ease-out infinite alternate-reverse;
+  box-sizing: border-box;
+  pointer-events: none; /* Allow clicks to pass through */
+  z-index: -1; /* Behind the dice */
+}
+
+.dice {
+  width: 75%;
+  height: 75%;
+  background-image: url('../../../images/dice/diceValues.png');
+  background-size: cover;
+  pointer-events: none; /* Allow clicks to pass through to parent */
+  position: relative;
+  z-index: 1;
+}
+
+.dice.face-1 {
+  background-position-x: 0%;
+}
+
+.dice.face-2 {
+  background-position-x: 20%;
+}
+
+.dice.face-3 {
+  background-position-x: 40%;
+}
+
+.dice.face-4 {
+  background-position-x: 60%;
+}
+
+.dice.face-5 {
+  background-position-x: 80%;
+}
+
+.dice.face-6 {
+  background-position-x: 100%;
+}
+
+.dice.rolling {
+  animation: diceRoll 0.6s ease-out;
+}
+
+@keyframes diceRoll {
+  to {
+    background-image: url('../../../images/dice/diceRoll.png');
+    transform: rotateZ(calc(360deg * 2));
+    filter: blur(2px);
+  }
+}
+
+@keyframes highlightDice {
+  to {
+    transform: scale(1.2);
+    box-shadow: 0px 0px 30px 6px #ffd500;
+  }
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+  .dashboard {
+    max-width: 110px;
+    height: 75px;
+    bottom: 30px;
+    padding: 8px;
+    border-radius: 10px;
+  }
+  
+  .dice-section {
+    width: 65px;
+    height: 65px;
+    border-radius: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .dashboard {
+    max-width: 100px;
+    height: 70px;
+    bottom: 25px;
+    padding: 6px;
+    border-radius: 9px;
+  }
+  
+  .dice-section {
+    width: 60px;
+    height: 60px;
+    border-radius: 13px;
+  }
+  
+  .dice-section.highlight::before {
+    width: 50px;
+    height: 50px;
+    border-width: 2px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .dashboard {
+    max-width: 90px;
+    height: 65px;
+    bottom: 20px;
+    padding: 5px;
+    border-radius: 8px;
+  }
+  
+  .dice-section {
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .dashboard {
+    max-width: 85px;
+    height: 60px;
+    bottom: 18px;
+    padding: 5px;
+    border-radius: 8px;
+  }
+  
+  .dice-section {
+    width: 50px;
+    height: 50px;
+    border-radius: 11px;
+  }
+  
+  .dice-section.highlight::before {
+    width: 42px;
+    height: 42px;
+  }
+}
+

@@ -1,0 +1,272 @@
+/* Direct copy from Ludo-mg with proper formatting */
+
+:root {
+  --board-width: 650px;
+  --cell-width: calc(var(--board-width) / 15);
+  --board-bg: white;
+  --red: red;
+  --green: #07c107;
+  --yellow: rgb(255, 209, 0);
+  --blue: #2311db;
+  --cell-border-color: rgb(216, 216, 216);
+}
+
+.board {
+  width: var(--board-width) !important;
+  height: var(--board-width) !important;
+  margin: auto !important;
+  background: var(--board-bg) !important;
+  border-radius: 10px !important;
+  outline: 4px solid white !important;
+  display: block !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+.board .red {
+  background-color: var(--red);
+}
+
+.board .green {
+  background-color: var(--green);
+}
+
+.board .blue {
+  background-color: var(--blue);
+}
+
+.board .yellow {
+  background-color: var(--yellow);
+}
+
+.board .section {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+}
+
+.board .section .private {
+  width: calc(var(--cell-width) * 6) !important;
+  height: calc(var(--cell-width) * 6) !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+.board .section .private .cells {
+  background: white !important;
+  width: calc(var(--cell-width) * 4) !important;
+  height: calc(var(--cell-width) * 4) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+.board .section .private .cells .cell {
+  width: calc(var(--cell-width) * 1) !important;
+  height: calc(var(--cell-width) * 1) !important;
+  border-radius: 100px !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+.board .section .cells {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  box-sizing: border-box !important;
+}
+
+.board .section .cells .cell {
+  flex-shrink: 0 !important;
+  width: var(--cell-width) !important;
+  height: var(--cell-width) !important;
+  border: 1px solid var(--cell-border-color) !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+.board .section .cells .cell.star {
+  background-image: url('../../../images/star.png');
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.board .section.section-2 .homes {
+  width: calc(var(--cell-width) * 3);
+  height: calc(var(--cell-width) * 3);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.board .section.section-2 .homes .home {
+  position: absolute;
+  width: 40px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board .section.section-2 .homes .home .cells {
+  flex-direction: column;
+}
+
+.board .section.section-2 .homes .home .cells .cell {
+  width: 15px;
+  height: 15px;
+  border: none;
+}
+
+.board .section.section-2 .homes .home .cells .cell .pawn {
+  transform: scale(1.3);
+}
+
+.board .section.section-2 .homes .home .cells .cell .pawn img {
+  width: 100%;
+}
+
+.board .section.section-2 .homes .home.red {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.board .section.section-2 .homes .home.green {
+  height: 40px;
+  width: 70px;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.board .section.section-2 .homes .home.blue {
+  height: 40px;
+  width: 70px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.board .section.section-2 .homes .home.yellow {
+  right: 0;
+  bottom: 50%;
+  transform: translateY(50%);
+}
+
+.board .section.section-2 .homes .home.green .cells,
+.board .section.section-2 .homes .home.blue .cells {
+  flex-direction: row;
+}
+
+.board .pawn {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: absolute !important;
+  border-radius: 50px !important;
+  z-index: 99 !important;
+  top: 0 !important;
+  left: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.board .pawn img {
+  width: 90% !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+.board .pawn.highlight {
+  box-shadow: 0px 0px 10px 2px #ffd500 !important;
+  border: 4px dashed #000 !important;
+  animation: highlightPawn 0.5s infinite alternate-reverse !important;
+  cursor: pointer !important;
+}
+
+@keyframes highlightPawn {
+  to {
+    transform: scale(1.2);
+  }
+}
+
+/* Dashboard Styles - Extracted from Ludo-mg */
+.board .dashboard {
+  width: 100% !important;
+  height: 70px !important;
+  margin-top: 40px !important;
+  border-radius: 10px !important;
+  border: 4px solid white !important;
+  display: flex !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+  font-size: 28px !important;
+  color: white !important;
+  position: relative !important;
+  font-family: 'Bangers', cursive !important;
+}
+
+.board .dashboard.blue {
+  background-color: var(--blue) !important;
+}
+
+.board .dashboard.red {
+  background-color: var(--red) !important;
+}
+
+.board .dashboard.green {
+  background-color: var(--green) !important;
+}
+
+.board .dashboard.yellow {
+  background-color: var(--yellow) !important;
+}
+
+.board .dashboard .player-name {
+  flex: 1 !important;
+  text-align: center !important;
+}
+
+.board .dashboard .dice-value {
+  flex: 1 !important;
+  text-align: center !important;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+  :root {
+    --board-width: 90vw;
+  }
+  
+  .board .dashboard {
+    font-size: 20px !important;
+    height: 60px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :root {
+    --board-width: 95vw;
+  }
+  
+  .board .section .private .cells .cell {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  
+  .board .dashboard {
+    font-size: 16px !important;
+    height: 50px !important;
+  }
+}
+

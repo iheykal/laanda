@@ -8,6 +8,9 @@ const PlayerSchema = new Schema({
     color: String,
     ready: { type: Boolean, default: false },
     nowMoving: { type: Boolean, default: false },
+    // NEW: Link to User wallet account
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    isBot: { type: Boolean, default: false }, // Bot player flag
 });
 
 PlayerSchema.methods.changeReadyStatus = function () {

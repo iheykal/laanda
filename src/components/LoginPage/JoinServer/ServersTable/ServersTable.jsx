@@ -9,6 +9,7 @@ const ServerListTable = ({ rooms, handleJoinClick }) => {
                     <th className={styles.firstColumn}></th>
                     <th>Server</th>
                     <th>#/#</th>
+                    <th>Bet</th>
                     <th>Status</th>
                     <th className={styles.lastColumn}></th>
                 </tr>
@@ -19,7 +20,12 @@ const ServerListTable = ({ rooms, handleJoinClick }) => {
                         <tr key={index}>
                             <td>{room.private ? <img src={lock} alt='private' /> : null}</td>
                             <td className={styles.roomName}>{room.name}</td>
-                            <td>{`${room.players.length}/4`}</td>
+                            <td>{`${room.players.length}/2`}</td>
+                            <td className={room.requiresBet ? styles.betAmount : styles.freeBet}>
+                                {room.requiresBet && room.betAmount > 0 
+                                    ? `💰$${room.betAmount}` 
+                                    : '🆓'}
+                            </td>
                             <td>{room.isStarted ? 'started' : 'waiting'}</td>
                             <td className={styles.lastColumn}>
                                 <button onClick={() => handleJoinClick(room)}>Join</button>

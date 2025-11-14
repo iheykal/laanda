@@ -52,13 +52,44 @@ function handle() {
     keyframes.push(step);
     count++;
 }
-if (document && document.styleSheets && document.styleSheets[0]) {
-    document.styleSheets[0].insertRule(
-        `
+// Find an accessible stylesheet or create a new one
+if (document) {
+    let targetStyleSheet = null;
+    
+    // Try to find an accessible stylesheet
+    for (let i = 0; i < document.styleSheets.length; i++) {
+        try {
+            // Try to access cssRules to check if it's accessible
+            if (document.styleSheets[i].cssRules) {
+                targetStyleSheet = document.styleSheets[i];
+                break;
+            }
+        } catch (e) {
+            // Skip external stylesheets that throw CORS errors
+            continue;
+        }
+    }
+    
+    // If no accessible stylesheet found, create a new one
+    if (!targetStyleSheet) {
+        const style = document.createElement('style');
+        document.head.appendChild(style);
+        targetStyleSheet = style.sheet;
+    }
+    
+    // Insert the animation rule
+    if (targetStyleSheet) {
+        try {
+            targetStyleSheet.insertRule(
+                `
   @keyframes timerAnimation {
     ${keyframes.join('\n')}
   }
 `,
-        document.styleSheets[0].cssRules.length
-    );
+                targetStyleSheet.cssRules.length
+            );
+        } catch (e) {
+            console.warn('Failed to insert timer animation rule:', e);
+        }
+    }
 }

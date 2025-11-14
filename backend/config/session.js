@@ -11,11 +11,12 @@ const sessionMiddleware = session({
     cookie: {
         httpOnly: false,
         secure: false,
+        sameSite: 'lax',
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
     },
     secret: 'secret',
     saveUninitialized: true,
     resave: true,
-    maxAge: 20000,
 });
 
 const wrap = expressMiddleware => (socket, next) => expressMiddleware(socket.request, {}, next);

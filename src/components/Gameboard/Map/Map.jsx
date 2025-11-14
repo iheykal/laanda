@@ -7,7 +7,7 @@ import pawnImages from '../../../constants/pawnImages';
 import canPawnMove from './canPawnMove';
 import getPositionAfterMove from './getPositionAfterMove';
 
-const Map = ({ pawns, nowMoving, rolledNumber }) => {
+const Map = ({ pawns, nowMoving, rolledNumber, selectedRoll }) => {
     const player = useContext(PlayerDataContext);
     const socket = useContext(SocketContext);
     const canvasRef = useRef(null);
@@ -17,7 +17,8 @@ const Map = ({ pawns, nowMoving, rolledNumber }) => {
     const paintPawn = (context, pawn) => {
         const { x, y } = positionMapCoords[pawn.position];
         const touchableArea = new Path2D();
-        touchableArea.arc(x, y, 12, 0, 2 * Math.PI);
+        // Larger touch area for better mobile responsiveness (18 instead of 12)
+        touchableArea.arc(x, y, 18, 0, 2 * Math.PI);
         const image = new Image();
         image.src = pawnImages[pawn.color];
         image.onload = function () {
@@ -29,32 +30,54 @@ const Map = ({ pawns, nowMoving, rolledNumber }) => {
     const handleCanvasClick = event => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
-        const rect = canvas.getBoundingClientRect(),
-            cursorX = event.clientX - rect.left,
-            cursorY = event.clientY - rect.top;
+        const rect = canvas.getBoundingClientRect();
+        
+        // Calculate scale factor for mobile
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        
+        // Scale touch coordinates to match canvas coordinate space
+        const cursorX = (event.clientX - rect.left) * scaleX;
+        const cursorY = (event.clientY - rect.top) * scaleY;
+        
         for (const pawn of pawns) {
-            if (ctx.isPointInPath(pawn.touchableArea, cursorX, cursorY)) {
-                if (canPawnMove(pawn, rolledNumber)) socket.emit('game:move', pawn._id);
+            if (pawn.touchableArea && ctx.isPointInPath(pawn.touchableArea, cursorX, cursorY)) {
+                const rollToUse = selectedRoll || rolledNumber;
+                if (canPawnMove(pawn, rollToUse)) {
+                    // Send pawnId and selected roll number - validate with same roll being sent
+                    socket.emit('game:move', {
+                        pawnId: pawn._id,
+                        rollNumber: rollToUse
+                    });
+                }
             }
         }
         setHintPawn(null);
     };
 
     const handleMouseMove = event => {
-        if (!nowMoving || !rolledNumber) return;
+        const rollToUse = selectedRoll || rolledNumber;
+        if (!nowMoving || !rollToUse) return;
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
-        const rect = canvas.getBoundingClientRect(),
-            x = event.clientX - rect.left,
-            y = event.clientY - rect.top;
+        const rect = canvas.getBoundingClientRect();
+        
+        // Calculate scale factor
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        
+        const x = (event.clientX - rect.left) * scaleX;
+        const y = (event.clientY - rect.top) * scaleY;
+        
         canvas.style.cursor = 'default';
         for (const pawn of pawns) {
             if (
+                pawn.touchableArea &&
                 ctx.isPointInPath(pawn.touchableArea, x, y) &&
                 player.color === pawn.color &&
-                canPawnMove(pawn, rolledNumber)
+                canPawnMove(pawn, rollToUse)
             ) {
-                const pawnPosition = getPositionAfterMove(pawn, rolledNumber);
+                const pawnPosition = getPositionAfterMove(pawn, rollToUse);
                 if (pawnPosition) {
                     canvas.style.cursor = 'pointer';
                     if (hintPawn && hintPawn.id === pawn._id) return;
@@ -85,6 +108,29 @@ const Map = ({ pawns, nowMoving, rolledNumber }) => {
         rerenderCanvas();
     }, [hintPawn, pawns]);
 
+    const handleTouchStart = (event) => {
+        // Prevent default behavior and scrolling
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Handle touch immediately for better responsiveness
+        const touches = event.touches || event.changedTouches;
+        if (touches && touches.length > 0) {
+            const touch = touches[0];
+            const syntheticEvent = {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            };
+            handleCanvasClick(syntheticEvent);
+        }
+    };
+
+    const handleTouchEnd = (event) => {
+        // Prevent default behavior
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
     return (
         <canvas
             className='canvas-container'
@@ -92,7 +138,14 @@ const Map = ({ pawns, nowMoving, rolledNumber }) => {
             height={460}
             ref={canvasRef}
             onClick={handleCanvasClick}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
             onMouseMove={handleMouseMove}
+            style={{ 
+                touchAction: 'none', 
+                userSelect: 'none',
+                WebkitTapHighlightColor: 'transparent'
+            }}
         />
     );
 };

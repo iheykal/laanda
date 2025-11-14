@@ -1,13 +1,74 @@
 .container {
     position: relative;
-    min-width: 100px;
-    min-height: 50px;
+    min-width: 120px;
+    min-height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid white;
-    border-radius: 5px;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-radius: 15px;
     color: white;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 16px;
     text-align: center;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.container:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 12px 30px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Active player glow effect */
+.container.active {
+    animation: playerGlow 2s ease-in-out infinite;
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes playerGlow {
+    0%, 100% {
+        box-shadow: 
+            0 8px 20px rgba(0, 0, 0, 0.3),
+            0 0 30px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        box-shadow: 
+            0 8px 20px rgba(0, 0, 0, 0.3),
+            0 0 50px rgba(255, 255, 255, 0.8);
+    }
+}
+
+/* Mobile responsive */
+@media screen and (max-width: 480px) {
+    .container {
+        min-width: 90px;
+        min-height: 50px;
+        font-size: 13px;
+        padding: 8px 12px;
+        border-width: 2px;
+        border-radius: 12px;
+        letter-spacing: 0.5px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .container {
+        min-width: 70px;
+        min-height: 40px;
+        font-size: 11px;
+        padding: 5px 8px;
+        border-radius: 8px;
+    }
 }
