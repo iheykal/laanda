@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: mern-ludo
+    env: docker
+    dockerfilePath: ./mern-ludo/Dockerfile
+    dockerContext: ./mern-ludo
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+
