@@ -122,20 +122,38 @@ module.exports = socket => {
     };
 
     const handleRollDice = async () => {
+        if (!req.session.roomId) {
+            console.log('⚠️ Invalid roll request - no roomId in session');
+            return;
+        }
+        
         const room = await getRoom(req.session.roomId);
+        if (!room) {
+            console.log('⚠️ Invalid roll request - room not found:', req.session.roomId);
+            return;
+        }
         
         // Validate it's the player's turn
         const currentPlayer = room.getCurrentlyMovingPlayer();
         const requestingPlayer = room.getPlayer(req.session.playerId);
         
         if (!currentPlayer || !requestingPlayer) {
-            console.log('⚠️ Invalid roll request - player not found');
+            console.log('⚠️ Invalid roll request - player not found', {
+                currentPlayer: currentPlayer ? `${currentPlayer.color} (${currentPlayer._id})` : 'null',
+                requestingPlayer: requestingPlayer ? `${requestingPlayer.color} (${requestingPlayer._id})` : 'null',
+                sessionPlayerId: req.session.playerId,
+                allPlayers: room.players.map(p => ({ id: p._id.toString(), color: p.color, nowMoving: p.nowMoving }))
+            });
             return;
         }
         
         // Ensure it's the current player's turn
         if (currentPlayer._id.toString() !== requestingPlayer._id.toString()) {
-            console.log(`⚠️ Invalid roll - not ${requestingPlayer.color}'s turn (current: ${currentPlayer.color})`);
+            console.log(`⚠️ Invalid roll - not ${requestingPlayer.color}'s turn (current: ${currentPlayer.color})`, {
+                currentPlayerId: currentPlayer._id.toString(),
+                requestingPlayerId: requestingPlayer._id.toString(),
+                sessionPlayerId: req.session.playerId
+            });
             return;
         }
         

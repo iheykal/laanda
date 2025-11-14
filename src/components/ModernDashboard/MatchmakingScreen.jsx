@@ -125,11 +125,13 @@ const MatchmakingScreen = ({ betAmount, onCancel }) => {
             }
             
             // Find available room with same bet amount (for finding existing matches)
+            // Prioritize rooms with exactly 1 player (waiting for opponent)
             const availableRoom = rooms.find(
                 room => !room.started && 
-                        room.players.length < 2 && 
+                        room.players.length === 1 && 
                         room.betAmount === betAmount &&
-                        !room.private
+                        !room.private &&
+                        room.players[0].name !== user.username // Don't join our own room
             );
 
             if (availableRoom && !hasJoinedRef.current) {
@@ -145,8 +147,9 @@ const MatchmakingScreen = ({ betAmount, onCancel }) => {
                 });
                 // Don't set hasJoinedRef here - wait for player:data event
                 // Don't navigate here - wait for player:data and room:data events
-            } else if (!roomCreatedRef.current && !hasJoinedRef.current && searchTimeRef.current >= 1) {
-                // No match found after 1 second, create new room immediately
+            } else if (!roomCreatedRef.current && !hasJoinedRef.current && searchTimeRef.current >= 2) {
+                // No match found after 2 seconds, create new room
+                // Increased delay to give more time for finding matches
                 createNewRoom();
             }
         };
@@ -211,7 +214,8 @@ const MatchmakingScreen = ({ betAmount, onCancel }) => {
             // Initial search
             socket.emit('room:rooms');
             
-            // Poll every 1 second for matching (reduced from 500ms to reduce server load)
+            // Poll every 500ms for matching to reduce race conditions
+            // More frequent polling helps catch rooms created by other players quickly
             pollingIntervalRef.current = setInterval(() => {
                 if (!hasJoinedRef.current || (hasJoinedRef.current && roomCreatedRef.current && statusRef.current === 'creating')) {
                     // Continue polling if not joined, or if we joined our own room (waiting for opponent)
@@ -223,7 +227,7 @@ const MatchmakingScreen = ({ betAmount, onCancel }) => {
                         pollingIntervalRef.current = null;
                     }
                 }
-            }, 1000);
+            }, 500);
         };
 
         // Start continuous polling for matches

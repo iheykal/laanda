@@ -80,6 +80,17 @@ module.exports = socket => {
         const userId = req.session.userId || null;
         room.addPlayer(data.name, null, userId); // Pass userId to addPlayer
         
+        // Find the player we just added by name and userId
+        const addedPlayer = room.players.find(p => 
+            p.name === data.name && 
+            (userId ? p.userId && p.userId.toString() === userId.toString() : true)
+        );
+        
+        if (!addedPlayer) {
+            console.error(`❌ Failed to find added player: ${data.name}`);
+            return;
+        }
+        
         // Check if this is a free game room that needs a bot
         if (req.session.needsBotForRoom && req.session.needsBotForRoom === room._id.toString()) {
             console.log('🤖 User joined their free game room - adding bot now');
@@ -111,7 +122,14 @@ module.exports = socket => {
             // Try to get fresh room data anyway
             const freshRoom = await getRoom(room._id);
             if (freshRoom) {
-                reloadSession(freshRoom);
+                // Find the player again in fresh room data
+                const freshPlayer = freshRoom.players.find(p => 
+                    p.name === data.name && 
+                    (userId ? p.userId && p.userId.toString() === userId.toString() : true)
+                );
+                if (freshPlayer) {
+                    reloadSession(freshRoom, freshPlayer._id.toString());
+                }
                 sendToPlayersData(freshRoom);
             }
             return;
@@ -119,24 +137,75 @@ module.exports = socket => {
         
         console.log(`💾 Room saved to database - Started: ${savedRoom.started}, Players: ${savedRoom.players.length}`);
         
-        // Explicitly broadcast room data to all players in the room
-        sendToPlayersData(savedRoom);
-        console.log(`📡 Broadcasted room data to all players - Game started: ${savedRoom.started}, Players: ${savedRoom.players.length}`);
+        // Reload session with the saved room BEFORE broadcasting
+        // This ensures session is set correctly for all subsequent operations
+        reloadSession(savedRoom, addedPlayer._id.toString());
         
-        // Reload session with the saved room
-        reloadSession(savedRoom);
+        // Explicitly broadcast room data to all players in the room AFTER session is set
+        // Use a small delay to ensure session is saved, then send room data multiple times
+        // to ensure both players receive it (handles timing issues)
+        setTimeout(() => {
+            // Get fresh room data to ensure we have the latest state
+            getRoom(savedRoom._id).then(freshRoom => {
+                if (freshRoom) {
+                    sendToPlayersData(freshRoom);
+                    console.log(`📡 Broadcasted room data to all players - Game started: ${freshRoom.started}, Players: ${freshRoom.players.length}`);
+                    
+                    // Send again after another short delay as a fallback
+                    setTimeout(() => {
+                        getRoom(savedRoom._id).then(freshRoom2 => {
+                            if (freshRoom2) {
+                                sendToPlayersData(freshRoom2);
+                            }
+                        });
+                    }, 300);
+                }
+            });
+        }, 100);
     };
 
     // Since it is not bound to an HTTP request, the session must be manually reloaded and saved
-    const reloadSession = room => {
+    const reloadSession = (room, playerId = null) => {
         req.session.reload(err => {
-            if (err) return socket.disconnect();
+            if (err) {
+                console.error('❌ Error reloading session:', err);
+                return socket.disconnect();
+            }
             req.session.roomId = room._id.toString();
-            req.session.playerId = room.players[room.players.length - 1]._id.toString();
-            req.session.color = COLORS[room.players.length - 1];
-            req.session.save();
-            socket.join(room._id.toString());
-            socket.emit('player:data', JSON.stringify(req.session));
+            
+            // Use provided playerId, or find by matching name/userId, or fallback to last player
+            if (playerId) {
+                req.session.playerId = playerId.toString();
+            } else {
+                // Try to find player by name from session if available
+                const player = room.players.find(p => 
+                    p.name === req.session.username || 
+                    (req.session.userId && p.userId && p.userId.toString() === req.session.userId.toString())
+                ) || room.players[room.players.length - 1];
+                req.session.playerId = player._id.toString();
+            }
+            
+            // Find the player's color
+            const sessionPlayer = room.players.find(p => p._id.toString() === req.session.playerId.toString());
+            if (sessionPlayer) {
+                req.session.color = sessionPlayer.color;
+            } else {
+                req.session.color = COLORS[room.players.length - 1];
+            }
+            
+            req.session.save(err => {
+                if (err) {
+                    console.error('❌ Error saving session:', err);
+                } else {
+                    socket.join(room._id.toString());
+                    socket.emit('player:data', JSON.stringify({
+                        roomId: req.session.roomId,
+                        playerId: req.session.playerId,
+                        color: req.session.color
+                    }));
+                    console.log(`✅ Session reloaded - Player: ${req.session.playerId}, Color: ${req.session.color}, Room: ${req.session.roomId}`);
+                }
+            });
         });
     };
 
