@@ -1,0 +1,103 @@
+/* Dice Section Styles - Extracted from Ludo-mg */
+.dice-section {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 30px !important;
+  position: absolute !important;
+  top: -20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  border: 4px solid white !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  box-sizing: border-box !important;
+}
+
+.dice-section.blue {
+  background-color: #2311db !important;
+}
+
+.dice-section.red {
+  background-color: red !important;
+}
+
+.dice-section.green {
+  background-color: #07c107 !important;
+}
+
+.dice-section.yellow {
+  background-color: rgb(255, 209, 0) !important;
+}
+
+.dice-section.highlight::before {
+  content: '' !important;
+  display: block !important;
+  width: 80px !important;
+  height: 80px !important;
+  border: 5px dashed #000 !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  border-radius: 100px !important;
+  animation: highlightDice 0.5s ease-out infinite alternate-reverse !important;
+  box-sizing: border-box !important;
+}
+
+.dice {
+  width: 80% !important;
+  height: 80% !important;
+  background-image: url('../../../images/dice/diceValues.png') !important;
+  background-size: cover !important;
+}
+
+.dice.no-roll {
+  background-image: url('../../../images/dice/diceRoll.png') !important;
+  background-position: center !important;
+}
+
+.dice.face-1 {
+  background-position-x: 0% !important;
+}
+
+.dice.face-2 {
+  background-position-x: 20% !important;
+}
+
+.dice.face-3 {
+  background-position-x: 40% !important;
+}
+
+.dice.face-4 {
+  background-position-x: 60% !important;
+}
+
+.dice.face-5 {
+  background-position-x: 80% !important;
+}
+
+.dice.face-6 {
+  background-position-x: 100% !important;
+}
+
+.dice.rolling {
+  animation: diceRoll 1.2s ease-out !important;
+}
+
+@keyframes diceRoll {
+  to {
+    background-image: url('../../../images/dice/diceRoll.png') !important;
+    transform: rotateZ(calc(360deg * 4)) !important;
+    filter: blur(2px) !important;
+  }
+}
+
+@keyframes highlightDice {
+  to {
+    transform: scale(1.2) !important;
+    box-shadow: 0px 0px 30px 6px #ffd500 !important;
+  }
+}
+

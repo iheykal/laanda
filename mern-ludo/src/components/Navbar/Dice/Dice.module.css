@@ -1,0 +1,66 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    min-height: auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.dice {
+    width: 100px;
+    height: 100px;
+    transition: transform 0.2s;
+    cursor: pointer;
+    touch-action: manipulation; /* Improves mobile touch */
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
+}
+
+.roll {
+    animation: pulse 1s infinite;
+}
+
+.dice:active {
+    transform: scale(0.95);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+/* Mobile specific improvements */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 0;
+        min-height: auto;
+        background: transparent;
+    }
+    
+    .dice {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0;
+        min-height: auto;
+        background: transparent;
+    }
+    
+    .dice {
+        width: 60px;
+        height: 60px;
+    }
+}
+

@@ -1,0 +1,430 @@
+/* Matchmaking Screen Styles */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, 
+        rgba(42, 31, 61, 0.97) 0%, 
+        rgba(26, 19, 41, 0.98) 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.matchmakingCard {
+    background: linear-gradient(135deg, 
+        rgba(138, 43, 226, 0.3) 0%, 
+        rgba(123, 31, 162, 0.3) 100%
+    );
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 30px 25px;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Search Animation */
+.searchAnimation {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px auto;
+    position: relative;
+}
+
+.radar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid rgba(76, 175, 80, 0.5);
+    position: absolute;
+    animation: radarPulse 2s ease-out infinite;
+}
+
+@keyframes radarPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.radar::before,
+.radar::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(76, 175, 80, 0.3);
+    animation: radarPulse 2s ease-out infinite;
+}
+
+.radar::before {
+    animation-delay: 0.5s;
+}
+
+.radar::after {
+    animation-delay: 1s;
+}
+
+.searchIcon {
+    font-size: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.successIcon {
+    font-size: 60px;
+    animation: successPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes successPop {
+    0% {
+        transform: scale(0) rotate(-180deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+.creatingIcon {
+    font-size: 60px;
+    animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Status Message */
+.statusMessage {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    margin: 15px 0;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Bet Display */
+.betDisplay {
+    background: linear-gradient(135deg, 
+        rgba(255, 215, 0, 0.3) 0%, 
+        rgba(255, 165, 0, 0.3) 100%
+    );
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    border-radius: 15px;
+    padding: 12px 20px;
+    margin: 15px auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.betLabel {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.betValue {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Search Time */
+.searchTime {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.timeIcon {
+    font-size: 20px;
+}
+
+.timeValue {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: monospace;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Loading Dots */
+.loadingDots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    animation: dotPulse 1.4s ease-in-out infinite;
+}
+
+.dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes dotPulse {
+    0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+/* Success Message */
+.successMessage {
+    margin: 20px 0;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.successText {
+    color: #4CAF50;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 8px 0;
+    text-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+}
+
+.subText {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Creating Message */
+.creatingMessage {
+    margin: 20px 0;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.creatingText {
+    color: #FFD700;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 8px 0;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+/* Cancel Button */
+.cancelButton {
+    background: linear-gradient(135deg, #FF6B6B 0%, #E74C3C 100%);
+    border: 2px solid white;
+    border-radius: 20px;
+    padding: 12px 30px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 20px auto 12px auto;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+    display: block;
+}
+
+.cancelButton:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(231, 76, 60, 0.6);
+    background: linear-gradient(135deg, #FF5252 0%, #D84A5F 100%);
+}
+
+.cancelButton:active {
+    transform: translateY(0);
+}
+
+/* Info Text */
+.infoText {
+    margin-top: 15px;
+}
+
+.infoText p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 5px 0;
+    font-style: italic;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+    .matchmakingCard {
+        padding: 25px 20px !important;
+        max-width: 350px !important;
+    }
+
+    .searchAnimation {
+        width: 90px;
+        height: 90px;
+        margin: 0 auto 15px auto;
+    }
+
+    .radar {
+        width: 90px;
+        height: 90px;
+    }
+
+    .searchIcon {
+        font-size: 45px;
+    }
+
+    .successIcon,
+    .creatingIcon {
+        font-size: 55px;
+    }
+
+    .statusMessage {
+        font-size: 20px;
+        margin: 12px 0;
+    }
+
+    .betValue {
+        font-size: 18px;
+    }
+
+    .betDisplay {
+        padding: 10px 18px;
+        margin: 12px auto;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .matchmakingCard {
+        padding: 20px 15px !important;
+        width: 95%;
+        max-width: 320px !important;
+    }
+
+    .searchAnimation {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 12px auto;
+    }
+
+    .radar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .searchIcon {
+        font-size: 40px;
+    }
+
+    .successIcon,
+    .creatingIcon {
+        font-size: 50px;
+    }
+
+    .statusMessage {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+    .betDisplay {
+        padding: 10px 15px;
+        flex-direction: column;
+        gap: 6px;
+        margin: 10px auto;
+    }
+
+    .betLabel {
+        font-size: 12px;
+    }
+
+    .betValue {
+        font-size: 16px;
+    }
+
+    .cancelButton {
+        padding: 10px 25px;
+        font-size: 14px;
+        margin: 15px auto 10px auto;
+    }
+
+    .timeValue {
+        font-size: 16px;
+    }
+
+    .timeIcon {
+        font-size: 18px;
+    }
+}
+
+
+
+
+
+
+

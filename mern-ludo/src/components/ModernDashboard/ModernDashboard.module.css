@@ -1,0 +1,1323 @@
+/* Modern Dashboard Styles - Ludo Star Inspired */
+
+.dashboard {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #5B4A7D 0%, #3D2E5B 50%, #2A1F3D 100%);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    position: relative;
+}
+
+.dashboard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Top Bar */
+.topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.userProfile {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.4) 0%, rgba(123, 31, 162, 0.4) 100%);
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    gap: 12px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FF6B9D 0%, #C06CE9 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    border: 3px solid white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.userLevel {
+    color: #FFD700;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ===== MODERN COINS SECTION ===== */
+.coins {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.coinBadge {
+    position: relative;
+    background: linear-gradient(135deg, #4CAF50 0%, #45A049 50%, #388E3C 100%);
+    padding: 0;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 8px 32px rgba(76, 175, 80, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+        0 4px 20px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    animation: coinBadgeEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(10px);
+}
+
+@keyframes coinBadgeEntrance {
+    0% {
+        opacity: 0;
+        transform: translateX(20px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.coinGlow {
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+    animation: coinGlowPulse 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes coinGlowPulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.2) rotate(180deg);
+    }
+}
+
+.coinContent {
+    position: relative;
+    z-index: 2;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.coinIconWrapper {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    animation: coinIconFloat 3s ease-in-out infinite;
+}
+
+@keyframes coinIconFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-4px) rotate(5deg);
+    }
+}
+
+.coinIcon {
+    font-size: 24px;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    animation: coinIconSpin 4s ease-in-out infinite;
+}
+
+@keyframes coinIconSpin {
+    0%, 100% {
+        transform: rotate(0deg) scale(1);
+    }
+    25% {
+        transform: rotate(-10deg) scale(1.1);
+    }
+    75% {
+        transform: rotate(10deg) scale(1.1);
+    }
+}
+
+.coinShine {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.5) 50%,
+        transparent 70%
+    );
+    animation: coinShine 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes coinShine {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+}
+
+.coinInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.coinLabel {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.coinAmount {
+    color: white;
+    font-weight: 800;
+    font-size: 18px;
+    text-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(255, 255, 255, 0.3);
+    letter-spacing: -0.5px;
+    transition: all 0.3s ease;
+}
+
+.coinAmount.increase {
+    animation: coinAmountIncrease 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: #66BB6A !important;
+    text-shadow: 
+        0 2px 8px rgba(102, 187, 106, 0.8),
+        0 0 20px rgba(102, 187, 106, 0.6);
+}
+
+@keyframes coinAmountIncrease {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.coinAmount.decrease {
+    animation: coinAmountDecrease 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: #FF6B6B !important;
+    text-shadow: 
+        0 2px 8px rgba(255, 107, 107, 0.8),
+        0 0 20px rgba(255, 107, 107, 0.6);
+}
+
+@keyframes coinAmountDecrease {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.coinDecorations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.coinSparkle1,
+.coinSparkle2 {
+    position: absolute;
+    font-size: 12px;
+    opacity: 0.7;
+    animation: sparkleFloat 2s ease-in-out infinite;
+}
+
+.coinSparkle1 {
+    top: 10%;
+    right: 15%;
+    animation-delay: 0s;
+}
+
+.coinSparkle2 {
+    bottom: 15%;
+    left: 20%;
+    animation-delay: 1s;
+}
+
+@keyframes sparkleFloat {
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-10px) scale(1);
+    }
+}
+
+.addButton {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 30%, #FFA500 60%, #FFD700 100%);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    color: white;
+    font-size: 0;
+    cursor: pointer;
+    box-shadow: 
+        0 0 20px rgba(255, 107, 53, 0.6),
+        0 0 40px rgba(255, 165, 0, 0.4),
+        0 8px 25px rgba(255, 107, 53, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.3) inset,
+        0 2px 10px rgba(255, 215, 0, 0.3) inset;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: addButtonEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both, glossyGlow 3s ease-in-out infinite;
+    filter: brightness(1.1) saturate(1.2);
+}
+
+@keyframes glossyGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px rgba(255, 107, 53, 0.6),
+            0 0 40px rgba(255, 165, 0, 0.4),
+            0 8px 25px rgba(255, 107, 53, 0.5),
+            0 0 0 1px rgba(255, 255, 255, 0.3) inset,
+            0 2px 10px rgba(255, 215, 0, 0.3) inset;
+    }
+    50% {
+        box-shadow: 
+            0 0 30px rgba(255, 107, 53, 0.9),
+            0 0 60px rgba(255, 165, 0, 0.7),
+            0 8px 25px rgba(255, 107, 53, 0.7),
+            0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+            0 2px 15px rgba(255, 215, 0, 0.5) inset;
+    }
+}
+
+@keyframes addButtonEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-180deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+.addButton::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 30%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0.4) 70%,
+        transparent 100%
+    );
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+}
+
+.addButton:hover::before {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(225deg);
+}
+
+.addButton::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at 30% 30%,
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0.2) 40%,
+        transparent 70%
+    );
+    pointer-events: none;
+}
+
+.addButton:hover {
+    transform: scale(1.15) rotate(90deg);
+    box-shadow: 
+        0 0 40px rgba(255, 107, 53, 1),
+        0 0 80px rgba(255, 165, 0, 0.8),
+        0 12px 35px rgba(255, 107, 53, 0.7),
+        0 0 0 2px rgba(255, 255, 255, 0.5) inset,
+        0 3px 15px rgba(255, 215, 0, 0.5) inset;
+    filter: brightness(1.2) saturate(1.3);
+}
+
+.addButton:active {
+    transform: scale(1.05) rotate(90deg);
+    box-shadow: 
+        0 0 25px rgba(255, 107, 53, 0.8),
+        0 0 50px rgba(255, 165, 0, 0.6),
+        0 6px 20px rgba(255, 107, 53, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.4) inset,
+        0 2px 8px rgba(255, 215, 0, 0.4) inset;
+    filter: brightness(1.05) saturate(1.15);
+}
+
+.addButtonIcon {
+    position: relative;
+    z-index: 2;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1;
+    transition: all 0.3s ease;
+}
+
+.addButton:hover .addButtonIcon {
+    transform: scale(1.2);
+    font-weight: 400;
+}
+
+.addButtonRipple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: ripple 2s ease-out infinite;
+}
+
+@keyframes ripple {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+    }
+}
+
+/* Logo Section */
+.logoSection {
+    text-align: center;
+    margin: 40px 0 30px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.logo {
+    font-size: 72px;
+    font-weight: 900;
+    margin: 0;
+    text-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    letter-spacing: -2px;
+}
+
+.logoL {
+    color: #FF6B6B;
+    animation: float 3s ease-in-out infinite;
+}
+
+.logoU {
+    color: #95E1D3;
+    animation: float 3s ease-in-out 0.2s infinite;
+}
+
+.logoD {
+    color: #FFD93D;
+    animation: float 3s ease-in-out 0.4s infinite;
+}
+
+.logoO {
+    color: #6BCB77;
+    animation: float 3s ease-in-out 0.6s infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.subtitle {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0 0 0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: 4px;
+}
+
+/* Game Modes */
+.gameModes {
+    display: flex;
+    gap: 15px;
+    padding: 0 20px;
+    justify-content: center;
+    margin: 25px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.modeCard {
+    flex: 0 1 auto;
+    max-width: 300px;
+    min-height: 260px;
+    border-radius: 25px;
+    padding: 20px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.modeCard::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+}
+
+.modeCard:hover::before {
+    left: 100%;
+}
+
+.modeClassic {
+    background: linear-gradient(135deg, #FDB44B 0%, #F58529 100%);
+}
+
+.modeCustom {
+    background: linear-gradient(135deg, #FF6B9D 0%, #E74C3C 100%);
+}
+
+.modeCard:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modeIcon {
+    font-size: 50px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+}
+
+/* Force smaller icons on all mobile devices */
+@media screen and (max-width: 600px) {
+    .modeIcon {
+        font-size: 20px !important;
+        margin-bottom: 6px !important;
+    }
+    
+    .modeDice {
+        gap: 4px !important;
+        margin-bottom: 6px !important;
+    }
+    
+    .dice {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 13px !important;
+        border-radius: 5px !important;
+    }
+}
+
+.modeDice {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.dice {
+    width: 45px;
+    height: 45px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: diceRoll 2s ease-in-out infinite;
+}
+
+.dice:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+@keyframes diceRoll {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(10deg); }
+    75% { transform: rotate(-10deg); }
+}
+
+.modeTitle {
+    font-size: 28px;
+    font-weight: 900;
+    color: white;
+    margin: 15px 0 8px 0;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1.5px;
+}
+
+.modeDesc {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Bet Selection */
+.betSelection {
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.betTitle {
+    color: white;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.betOptions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.betOption {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 25px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.betOption:hover {
+    transform: translateY(-5px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.betIcon {
+    font-size: 40px;
+}
+
+.betLabel {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.backBtn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #FF6B6B 0%, #E74C3C 100%);
+    border: 3px solid white;
+    border-radius: 25px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+    transition: all 0.3s ease;
+}
+
+.backBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(231, 76, 60, 0.5);
+}
+
+/* Bottom Navigation */
+.bottomNav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(42, 31, 61, 0.95) 0%, rgba(42, 31, 61, 1) 100%);
+    padding: 15px 20px 25px 20px;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.navItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 10px 15px;
+    border-radius: 15px;
+}
+
+.navItem:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+}
+
+.navItem.active {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.3) 0%, rgba(255, 165, 0, 0.3) 100%);
+}
+
+.navIcon {
+    font-size: 28px;
+}
+
+.navLabel {
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+    .topBar {
+        padding: 12px !important;
+    }
+    
+    .userProfile {
+        padding: 6px 12px !important;
+        gap: 8px !important;
+    }
+    
+    .avatar {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 14px !important;
+        border-width: 2px !important;
+    }
+    
+    .username {
+        font-size: 12px !important;
+    }
+    
+    .userLevel {
+        font-size: 9px !important;
+    }
+    
+    .coinContent {
+        padding: 6px 12px !important;
+        gap: 6px !important;
+    }
+
+    .coinIconWrapper {
+        width: 26px !important;
+        height: 26px !important;
+        border-radius: 8px !important;
+    }
+
+    .coinIcon {
+        font-size: 14px !important;
+    }
+
+    .coinLabel {
+        font-size: 7px !important;
+    }
+    
+    .coinAmount {
+        font-size: 13px !important;
+    }
+
+    .addButton {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .addButtonIcon {
+        font-size: 16px !important;
+    }
+    
+    .logo {
+        font-size: 40px !important;
+    }
+    
+    .subtitle {
+        font-size: 12px !important;
+        letter-spacing: 1px !important;
+    }
+    
+    .gameModes {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 10px !important;
+        padding: 0 10px !important;
+    }
+    
+    .modeCard {
+        flex: 0 1 auto !important;
+        max-width: 280px !important;
+        min-height: 200px !important;
+        padding: 15px 10px !important;
+    }
+    
+    .modeIcon {
+        font-size: 16px !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .modeDice {
+        gap: 3px !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .dice {
+        width: 16px !important;
+        height: 16px !important;
+        font-size: 12px !important;
+        border-radius: 4px !important;
+    }
+    
+    .modeTitle {
+        font-size: 22px !important;
+        margin: 10px 0 5px 0 !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    .modeDesc {
+        font-size: 12px !important;
+    }
+    
+    .betOptions {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+    
+    .betOption {
+        padding: 12px 8px !important;
+    }
+    
+    .betIcon {
+        font-size: 26px !important;
+    }
+    
+    .betLabel {
+        font-size: 13px !important;
+    }
+    
+    .betTitle {
+        font-size: 20px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .navIcon {
+        font-size: 18px !important;
+    }
+    
+    .navLabel {
+        font-size: 9px !important;
+    }
+    
+    .navItem {
+        padding: 6px 7px !important;
+        gap: 3px !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .topBar {
+        padding: 8px !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+    
+    .userProfile {
+        padding: 4px 8px !important;
+        gap: 5px !important;
+        border-radius: 16px !important;
+    }
+    
+    .avatar {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 12px !important;
+        border-width: 2px !important;
+    }
+    
+    .username {
+        font-size: 11px !important;
+    }
+    
+    .userLevel {
+        font-size: 8px !important;
+    }
+    
+    .coinBadge {
+        border-radius: 14px !important;
+    }
+
+    .coinContent {
+        padding: 5px 8px !important;
+        gap: 5px !important;
+    }
+
+    .coinIconWrapper {
+        width: 22px !important;
+        height: 22px !important;
+        border-radius: 6px !important;
+    }
+
+    .coinIcon {
+        font-size: 12px !important;
+    }
+
+    .coinLabel {
+        font-size: 6px !important;
+    }
+    
+    .coinAmount {
+        font-size: 11px !important;
+    }
+
+    .addButton {
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    .addButtonIcon {
+        font-size: 14px !important;
+    }
+
+    .coinSparkle1,
+    .coinSparkle2 {
+        display: none !important;
+    }
+    
+    .logoSection {
+        margin: 15px 0 10px 0 !important;
+    }
+    
+    .logo {
+        font-size: 32px !important;
+    }
+    
+    .subtitle {
+        font-size: 10px !important;
+        letter-spacing: 1px !important;
+        margin: 5px 0 0 0 !important;
+    }
+    
+    .gameModes {
+        flex-direction: row !important;
+        margin: 12px 0 !important;
+        gap: 8px !important;
+        padding: 0 8px !important;
+    }
+    
+    .modeCard {
+        flex: 0 1 auto !important;
+        max-width: 260px !important;
+        min-height: 180px !important;
+        padding: 12px 8px !important;
+        border-radius: 18px !important;
+        border-width: 2px !important;
+    }
+    
+    .modeIcon {
+        font-size: 14px !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .modeDice {
+        gap: 2px !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .dice {
+        width: 14px !important;
+        height: 14px !important;
+        font-size: 11px !important;
+        border-radius: 3px !important;
+    }
+    
+    .modeTitle {
+        font-size: 18px !important;
+        margin: 8px 0 4px 0 !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    .modeDesc {
+        font-size: 11px !important;
+    }
+    
+    .betSelection {
+        padding: 10px 8px !important;
+    }
+    
+    .betTitle {
+        font-size: 16px !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .betOptions {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 6px !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .betOption {
+        padding: 10px 6px !important;
+        border-radius: 10px !important;
+        gap: 5px !important;
+        border-width: 2px !important;
+    }
+    
+    .betIcon {
+        font-size: 20px !important;
+    }
+    
+    .betLabel {
+        font-size: 11px !important;
+    }
+    
+    .backBtn {
+        padding: 8px !important;
+        font-size: 13px !important;
+        border-radius: 14px !important;
+        border-width: 2px !important;
+    }
+    
+    .bottomNav {
+        padding: 8px 10px 15px 10px !important;
+    }
+    
+    .navIcon {
+        font-size: 16px !important;
+    }
+    
+    .navLabel {
+        font-size: 7px !important;
+    }
+    
+    .navItem {
+        padding: 4px 5px !important;
+        gap: 2px !important;
+        border-radius: 8px !important;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .avatar {
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 11px !important;
+    }
+    
+    .coinIconWrapper {
+        width: 20px !important;
+        height: 20px !important;
+        border-radius: 5px !important;
+    }
+
+    .coinIcon {
+        font-size: 11px !important;
+    }
+    
+    .coinAmount {
+        font-size: 10px !important;
+    }
+    
+    .addButton {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    .addButtonIcon {
+        font-size: 12px !important;
+    }
+    
+    .logo {
+        font-size: 28px !important;
+    }
+    
+    .modeIcon {
+        font-size: 12px !important;
+        margin-bottom: 3px !important;
+    }
+    
+    .modeDice {
+        gap: 2px !important;
+        margin-bottom: 3px !important;
+    }
+    
+    .dice {
+        width: 12px !important;
+        height: 12px !important;
+        font-size: 9px !important;
+        border-radius: 3px !important;
+    }
+    
+    .modeTitle {
+        font-size: 16px !important;
+    }
+    
+    .betIcon {
+        font-size: 18px !important;
+    }
+    
+    .navIcon {
+        font-size: 14px !important;
+    }
+    
+    .betOption {
+        padding: 8px 5px !important;
+    }
+    
+    .modeCard {
+        min-height: 160px !important;
+        padding: 10px 6px !important;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .avatar {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 10px !important;
+    }
+    
+    .coinIconWrapper {
+        width: 18px !important;
+        height: 18px !important;
+        border-radius: 5px !important;
+    }
+
+    .coinIcon {
+        font-size: 10px !important;
+    }
+    
+    .coinAmount {
+        font-size: 9px !important;
+    }
+    
+    .addButton {
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+    .addButtonIcon {
+        font-size: 11px !important;
+    }
+    
+    .logo {
+        font-size: 26px !important;
+    }
+    
+    .modeIcon {
+        font-size: 10px !important;
+        margin-bottom: 3px !important;
+    }
+    
+    .modeDice {
+        gap: 2px !important;
+        margin-bottom: 3px !important;
+    }
+    
+    .dice {
+        width: 10px !important;
+        height: 10px !important;
+        font-size: 8px !important;
+        border-radius: 2px !important;
+    }
+    
+    .modeTitle {
+        font-size: 15px !important;
+    }
+    
+    .betIcon {
+        font-size: 16px !important;
+    }
+    
+    .navIcon {
+        font-size: 13px !important;
+    }
+    
+    .modeCard {
+        min-height: 150px !important;
+        padding: 8px 5px !important;
+    }
+}
+
+/* Additional mobile optimization - catch all mobile devices */
+@media screen and (max-width: 1024px) and (orientation: portrait) {
+    .modeIcon {
+        font-size: 18px !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .modeDice {
+        gap: 3px !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .dice {
+        width: 16px !important;
+        height: 16px !important;
+        font-size: 12px !important;
+        border-radius: 4px !important;
+    }
+    
+    .betIcon {
+        font-size: 30px !important;
+    }
+    
+    .navIcon {
+        font-size: 20px !important;
+    }
+}
+
+/* Extra aggressive mobile sizing - applies to all mobile devices */
+@media (max-width: 600px), (max-device-width: 600px), (pointer: coarse) {
+    .modeIcon {
+        font-size: 14px !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .modeDice {
+        gap: 2px !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .dice {
+        width: 14px !important;
+        height: 14px !important;
+        font-size: 11px !important;
+        border-radius: 3px !important;
+    }
+}
+
+@media (max-width: 400px), (max-device-width: 400px) {
+    .modeIcon {
+        font-size: 12px !important;
+        margin-bottom: 3px !important;
+    }
+    
+    .dice {
+        width: 12px !important;
+        height: 12px !important;
+        font-size: 10px !important;
+    }
+}
+
